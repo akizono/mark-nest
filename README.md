@@ -1,7 +1,8 @@
 <div align="center">
   <img src="assets/icons/icon128.png" width="96" alt="MarkNest icon">
   <h1>MarkNest</h1>
-  <p><strong>A Chrome extension that stores bookmarks in a local JSON file, separate from Chrome’s built-in bookmarks.</strong></p>
+  <p>Your Personal Bookmark Space</p>
+  <p><strong>A Chrome MV3 extension for a private bookmark tree stored in a local JSON file, independent of Chrome bookmarks.</strong></p>
   <p>
     <img alt="Version" src="https://img.shields.io/badge/version-1.0.0-0B57D0">
     <img alt="Chrome" src="https://img.shields.io/badge/Chrome-120%2B-4285F4">
@@ -9,11 +10,9 @@
     <img alt="License" src="https://img.shields.io/badge/license-MIT-2ea44f">
   </p>
   <p>
-    <a href="https://github.com/akizono/mark-nest/releases/tag/v1.0.0">Download v1.0.0</a>
+    <a href="https://github.com/akizono/mark-nest/releases">Download</a>
     &nbsp;·&nbsp;
-    <a href="#install">Install</a>
-    &nbsp;·&nbsp;
-    <a href="#build--test">Build / test</a>
+    <a href="#build-from-source">Build from source</a>
     &nbsp;·&nbsp;
     <a href="README.zh-CN.md">简体中文</a>
   </p>
@@ -21,68 +20,63 @@
 
 ## Overview
 
-MarkNest keeps your personal bookmark tree in a `bookmarks.json` file you choose on disk. It does not sync with Chrome’s native bookmark store. An optional access password gates the popup and settings; it is access control only, not encryption.
+MarkNest is a personal bookmark manager independent of Chrome's bookmark system. Bookmarks live in a `bookmarks.json` file on disk (for example under a folder you pick). The file can be opened in File Explorer and is not tied to the extension process lifetime.
 
-Requires **Chrome 120+**.
+It is meant for access control on a shared computer: prevent family members or children from casually opening private sites. An optional password locks the popup and settings.
+
+Runs locally with no server or account. Requires Chrome 120+.
 
 ## Features
 
-- Nested folders and bookmarks, including bookmarks at the root
+- Nested folders and root-level bookmarks
 - Search by title, URL, and folder name
 - Add the current tab from the toolbar menu, page context menu, or popup
-- Import selected Chrome bookmark folders/pages into a chosen MarkNest folder
-- Three storage modes: folder auto-save, single-file auto-save, or manual export
+- Optional import of selected Chrome folders/pages into a MarkNest folder
+- Storage modes: directory auto-save, single-file auto-save, or manual export
 - Password set / change / disable / reset (reset does not delete bookmarks)
 - Unlock policies: every popup open, until manual lock (survives browser restart), or once per browser session
-- UI languages: English, Simplified Chinese, Traditional Chinese, Japanese (follows the browser language)
+- UI in English, Simplified Chinese, Traditional Chinese, and Japanese (browser language)
 
 ## Download
 
-Prebuilt packages are published on GitHub Releases:
+Release zips are on GitHub Releases:
 
 > [github.com/akizono/mark-nest/releases](https://github.com/akizono/mark-nest/releases)
 
-For **v1.0.0**, download `mark-nest-1.0.0.zip`, unpack it, then load the unpacked folder in Chrome (steps below).
-
-Source zipballs from GitHub are also fine if you prefer cloning or downloading the repository.
+For **v1.0.0**, download `mark-nest-1.0.0.zip` and unpack it.
 
 ## Install
 
 1. Open `chrome://extensions`
-2. Enable **Developer mode**
+2. Turn on **Developer mode**
 3. Click **Load unpacked**
-4. Select the unpacked `mark-nest-1.0.0` folder (or this repository root when developing)
+4. Select the unpacked `mark-nest-1.0.0` folder
 
-### First run
+On first run, click the MarkNest toolbar icon and finish setup: choose a folder, a single JSON file, or manual export mode, then optionally set a password. Canceling the folder/file picker does not create a storage location.
 
-1. Click the MarkNest toolbar icon
-2. Complete setup: pick a folder, a single JSON file, or manual mode
-3. Optionally set an access password
+Loading this repository root works the same way when developing.
 
-If you cancel the folder/file picker, MarkNest does not create a storage location.
+## Configuration
 
-## Storage modes
+`bookmarks.json` is the only source of truth for bookmark data. Password hashes and unlock state are stored separately and are never written into that file.
 
 | Mode | Source of truth | Auto write |
 | --- | --- | --- |
-| Directory | `bookmarks.json` inside the chosen folder | Yes |
-| File | The bound `bookmarks.json` file | Yes |
-| Manual | Your exported JSON file | No — export after edits |
+| Directory | `bookmarks.json` in the chosen folder | Yes |
+| File | The bound `bookmarks.json` | Yes |
+| Manual | Your exported JSON | No — export after edits |
 
-Rules:
+Directory writes use a temp file, validation, and a `.bak` backup before replacing the live file. If the JSON is corrupt, MarkNest reports the error and does not overwrite the damaged file.
 
-- Bookmark data lives in JSON, not as the primary store in `chrome.storage.local`
-- If file permission is lost, MarkNest asks you to re-authorize instead of silently switching modes
-- Switching modes keeps the current in-memory tree
-- Directory writes go through `bookmarks.json.tmp` → validate → `.bak` → final file
+Unlock policies:
 
-## Unlock policies
+| Policy | Behavior |
+| --- | --- |
+| Every popup open | Closing the popup locks again |
+| Until manual lock | Stays unlocked across browser restarts until you lock |
+| Browser session (default) | Cleared when the browser exits (`chrome.storage.session`) |
 
-1. **Every popup open** — closing the popup locks again
-2. **Until manual lock** — stays unlocked across browser restarts until you lock (toolbar menu, settings, or popup)
-3. **Browser session (default)** — unlock clears when the browser exits (`chrome.storage.session`)
-
-## JSON shape
+Example shape:
 
 ```json
 {
@@ -90,13 +84,13 @@ Rules:
   "updatedAt": "2026-11-25T00:00:00.000Z",
   "folders": [
     {
-      "id": "folder_…",
+      "id": "folder_001",
       "name": "Private",
       "sortOrder": 0,
       "folders": [],
       "bookmarks": [
         {
-          "id": "bookmark_…",
+          "id": "bookmark_001",
           "title": "Example",
           "url": "https://example.com",
           "sortOrder": 0
@@ -108,28 +102,22 @@ Rules:
 }
 ```
 
-Password hashes and unlock state are not written to this file.
-
-## Permissions
-
-`storage` · `contextMenus` · `tabs` · `activeTab` · `bookmarks`
-
-`bookmarks` is only used to import from Chrome’s bookmark tree. Chrome does not allow extensions to add items to the bookmarks-bar context menu; use **Import Chrome bookmarks…** from the extension icon menu or Settings → Data.
-
-Not requested: `history`, `cookies`, `webRequest`, `scripting`.
+Permissions: `storage`, `contextMenus`, `tabs`, `activeTab`, `bookmarks`.  
+`bookmarks` is used only for the optional Chrome → MarkNest import. MarkNest does not use Chrome bookmarks as its data store. Chrome also does not allow adding items to the bookmarks-bar context menu; use **Import Chrome bookmarks…** on the extension icon menu or Settings → Data.
 
 ## Limitations
 
-1. Folder/file handles from the File System Access API can expire; re-authorize with a user gesture when prompted
-2. Prefer setup and storage changes in the options/setup pages rather than the short-lived popup
-3. In manual mode, edits stay in a working buffer until you export
-4. Anyone who can open Settings can reset the password — this is not a vault
-5. Favicons use a public icon service; failures fall back to the extension icon
-6. Chrome 120 or newer
+- File System Access handles can expire after a browser restart; re-authorize when prompted
+- Prefer setup and storage changes in the options/setup pages; the popup is short-lived
+- Manual mode keeps edits in a working buffer until you export
+- Favicons use a public icon service; failures fall back to the extension icon
+- Restricted URLs such as `chrome://` cannot be bookmarked
 
-## Build / test
+## Build from source
 
 No bundler. The repository root is the extension root.
+
+Requirements: Node.js (for the test script), Chrome 120+.
 
 ```bash
 node tests/validate-data.test.js
@@ -152,37 +140,36 @@ Copy-Item -Recurse `
 Compress-Archive -Path (Join-Path $out '*') -DestinationPath ".\mark-nest-$version.zip" -Force
 ```
 
-Upload `mark-nest-<version>.zip` as the Release asset. Do not commit the zip.
+Upload `mark-nest-<version>.zip` to the Release. Do not commit the zip.
 
 ## Architecture
 
-- **Bookmarks:** `scripts/bookmarks.js` + `scripts/file-manager.js` (JSON on disk)
-- **Handles:** IndexedDB
-- **Config / password hash / until-manual unlock:** `chrome.storage.local`
-- **Session unlock:** `chrome.storage.session`
-- **UI:** vanilla ES modules (popup, options, setup, add-bookmark, import-chrome)
+- Entry: `background/service-worker.js` (menus, startup unlock), `popup/`, `options/`, `pages/`
+- Bookmark tree: `scripts/bookmarks.js`; disk I/O: `scripts/file-manager.js`
+- File/directory handles: IndexedDB
+- Config, password hash, until-manual unlock: `chrome.storage.local`
+- Session unlock: `chrome.storage.session`
+- UI: vanilla ES modules (no React/Vue)
 
 ```text
 mark-nest/
 ├── manifest.json
-├── background/          service worker (menus, startup unlock)
+├── background/
 ├── popup/
 ├── options/
-├── pages/               setup, add-bookmark, import-chrome
-├── scripts/             auth, storage, bookmarks, import
+├── pages/          setup, add-bookmark, import-chrome
+├── scripts/        auth, storage, bookmarks, import
 ├── assets/
-├── _locales/            en / zh_CN / zh_TW / ja
+├── _locales/       en, zh_CN, zh_TW, ja
 └── tests/
 ```
 
 ## Contributing
 
-Issues and pull requests are welcome. For larger behavior changes, open an issue first.
+Open an issue before large behavior changes.
 
-When contributing:
-
-- Keep `_locales/en`, `zh_CN`, `zh_TW`, and `ja` in sync when adding UI strings
-- Run `node tests/validate-data.test.js` before opening a PR
+- Keep `_locales/en`, `zh_CN`, `zh_TW`, and `ja` in sync for UI strings
+- Run `node tests/validate-data.test.js` before a PR
 - Do not commit generated zips, credentials, or local storage dumps
 
 ## License
