@@ -1,0 +1,10 @@
+{
+  "name": "marknest",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "description": "MarkNest Chrome Extension",
+  "scripts": {
+    "test": "node tests/validate-data.test.js"
+  }
+}

@@ -1,0 +1,36 @@
+# OS / editor
+.DS_Store
+Thumbs.db
+Desktop.ini
+*.swp
+*.swo
+.idea/
+.vscode/
+*.code-workspace
+
+# Dependencies / local tooling
+node_modules/
+.npm/
+.cache/
+
+# Build / packaging output (generated; attach to Releases instead)
+dist/
+build/
+publish/
+*.crx
+*.pem
+*.zip
+!docs/**
+
+# Local secrets / env
+.env
+.env.*
+*.local
+
+# Logs
+*.log
+npm-debug.log*
+
+# Cursor / agent
+.cursor/
+agent-transcripts/

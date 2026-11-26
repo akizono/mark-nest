@@ -1,0 +1,140 @@
+body {
+  width: 380px;
+  min-height: 420px;
+  max-height: 560px;
+  overflow: hidden;
+}
+
+#app {
+  display: flex;
+  flex-direction: column;
+  height: 560px;
+  max-height: 560px;
+  background: var(--surface);
+}
+
+.top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 12px;
+  border-bottom: 1px solid var(--border);
+}
+
+.brand {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.brand .name {
+  font-weight: 600;
+  font-size: 13px;
+}
+
+.top-actions {
+  display: flex;
+  gap: 6px;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.top-actions .primary {
+  padding: 5px 8px;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.panel {
+  flex: 1;
+  overflow: auto;
+  padding: 10px 12px;
+}
+
+.search-row input {
+  width: 100%;
+}
+
+.toolbar {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0;
+  flex-wrap: wrap;
+}
+
+.batch-bar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin: 0 0 8px;
+  padding: 6px 8px;
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  background: #fafbfc;
+}
+
+.batch-select-all {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.tree-item .batch-check {
+  flex-shrink: 0;
+  margin: 0;
+}
+
+.folder-batch-hint {
+  font-size: 11px;
+  margin-left: auto;
+  padding-right: 4px;
+  white-space: nowrap;
+}
+
+.tree {
+  min-height: 180px;
+}
+
+.bottom {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+  padding: 8px 12px;
+  border-top: 1px solid var(--border);
+  background: #fafbfc;
+}
+
+.status {
+  font-size: 11px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.item-meta {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  flex: 1;
+}
+
+.path-tag {
+  font-size: 10px;
+  color: var(--muted);
+}
+
+.gate-card {
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 12px;
+  background: #fafbfc;
+}
+
+.gate-card h2 {
+  margin: 0 0 6px;
+  font-size: 15px;
+}

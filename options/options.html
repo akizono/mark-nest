@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MarkNest Settings</title>
+  <link rel="stylesheet" href="../assets/shared.css" />
+  <link rel="stylesheet" href="options.css" />
+</head>
+<body>
+  <div class="layout">
+    <aside class="nav">
+      <div class="brand">
+        <img src="../assets/icons/icon32.png" width="20" height="20" alt="" />
+        <strong>MarkNest</strong>
+      </div>
+      <button data-tab="general" class="nav-item active" data-i18n="basicSettings">General</button>
+      <button data-tab="access" class="nav-item" data-i18n="passwordAndUnlock">Password & unlock</button>
+      <button data-tab="data" class="nav-item" data-i18n="dataManagement">Data</button>
+      <button data-tab="about" class="nav-item" data-i18n="about">About</button>
+    </aside>
+
+    <main class="content">
+      <p id="flash" class="banner hidden"></p>
+
+      <div id="settingsGate" class="card stack hidden">
+        <h1 data-i18n="settingsUnlockTitle">Unlock settings</h1>
+        <p class="muted" data-i18n="settingsUnlockHint"></p>
+        <div class="field">
+          <label data-i18n="password">Password</label>
+          <input id="settingsGatePwd" type="password" autocomplete="current-password" />
+        </div>
+        <p id="settingsGateError" class="banner error hidden"></p>
+        <div class="row wrap">
+          <button id="btnSettingsUnlock" class="primary" data-i18n="unlock">Unlock</button>
+          <button id="btnGateForgot" data-i18n="forgotPassword">Forgot password?</button>
+        </div>
+        <div id="gateResetPanel" class="stack hidden">
+          <hr />
+          <p class="banner" data-i18n="resetPasswordWarning"></p>
+          <div class="field">
+            <label data-i18n="newPassword">New password</label>
+            <input id="gateResetPwd1" type="password" autocomplete="new-password" />
+          </div>
+          <div class="field">
+            <label data-i18n="confirmPassword">Confirm</label>
+            <input id="gateResetPwd2" type="password" autocomplete="new-password" />
+          </div>
+          <p class="muted" data-i18n="resetPasswordEmptyHint"></p>
+          <div class="row wrap">
+            <button id="btnGateReset" class="danger" data-i18n="resetPassword">Reset password</button>
+          </div>
+        </div>
+      </div>
+
+      <section id="tab-general" class="tab">
+        <h1 data-i18n="basicSettings">General</h1>
+        <div id="manualWarn" class="banner hidden" data-i18n="manualModeBanner"></div>
+        <div class="card stack">
+          <div>
+            <div class="label" data-i18n="storageMode">Storage mode</div>
+            <div id="modeText" class="value"></div>
+          </div>
+          <div>
+            <div class="label" data-i18n="currentStorage">Current storage</div>
+            <div id="pathText" class="value mono"></div>
+          </div>
+          <div>
+            <div class="label" data-i18n="statusLabel">Status</div>
+            <div id="statusText" class="value"></div>
+          </div>
+          <div class="row wrap">
+            <button id="btnReauth" data-i18n="reauthorize">Re-authorize</button>
+            <button id="btnCheck" data-i18n="checkStatus">Check status</button>
+            <button id="btnLock" data-i18n="manualLock">Lock now</button>
+          </div>
+          <hr />
+          <div class="label" data-i18n="displaySettings">Display</div>
+          <label class="radio">
+            <input type="checkbox" id="chkShowUrl" />
+            <span data-i18n="showUrlInList">Show URL in popup list</span>
+          </label>
+          <hr />
+          <div class="label" id="switchModeLabel" data-i18n="switchModeHint">Switch storage mode</div>
+          <div class="row wrap">
+            <button id="btnToDir" class="primary" data-i18n="switchToDirectory">Use folder auto-save</button>
+            <button id="btnToFileNew" data-i18n="switchToFileNew">Create auto-save file</button>
+            <button id="btnToFileOpen" data-i18n="switchToFileOpen">Open auto-save file</button>
+            <button id="btnToManual" data-i18n="switchToManual">Switch to manual mode</button>
+          </div>
+          <p class="muted" id="switchModeHelp" data-i18n="setupCapabilities"></p>
+        </div>
+      </section>
+
+      <section id="tab-access" class="tab hidden">
+        <h1 data-i18n="passwordAndUnlock">Password & unlock</h1>
+        <div class="card stack">
+          <h2 class="section-title" data-i18n="passwordSettings">Password</h2>
+          <p id="pwdState" class="muted"></p>
+          <div id="oldPwdField" class="field hidden">
+            <label data-i18n="oldPassword">Current password</label>
+            <input id="oldPwd" type="password" autocomplete="current-password" />
+          </div>
+          <div class="field">
+            <label data-i18n="newPassword">New password</label>
+            <input id="newPwd" type="password" autocomplete="new-password" />
+          </div>
+          <div class="field">
+            <label data-i18n="confirmPassword">Confirm</label>
+            <input id="newPwd2" type="password" autocomplete="new-password" />
+          </div>
+          <p id="pwdFormError" class="banner error hidden"></p>
+          <div class="row wrap">
+            <button id="btnSetPwd" class="primary" data-i18n="setPassword">Set password</button>
+            <button id="btnChangePwd" class="hidden" data-i18n="changePassword">Change password</button>
+            <button id="btnDisablePwd" class="hidden" data-i18n="disablePassword">Disable</button>
+          </div>
+          <hr />
+          <p class="banner" data-i18n="resetPasswordWarning"></p>
+          <div class="row wrap">
+            <button id="btnResetPwd" class="danger" data-i18n="resetPassword">Reset password</button>
+          </div>
+        </div>
+        <div class="card stack" style="margin-top:14px">
+          <h2 class="section-title" data-i18n="unlockPolicy">Unlock policy</h2>
+          <label class="radio"><input type="radio" name="unlockMode" value="every_open" /> <span data-i18n="unlockEveryOpen"></span></label>
+          <label class="radio"><input type="radio" name="unlockMode" value="until_manual" /> <span data-i18n="unlockUntilManual"></span></label>
+          <label class="radio"><input type="radio" name="unlockMode" value="browser_session" /> <span data-i18n="unlockBrowserSession"></span></label>
+          <button id="btnSaveUnlock" class="primary" data-i18n="save">Save</button>
+        </div>
+      </section>
+
+      <section id="tab-data" class="tab hidden">
+        <h1 data-i18n="dataManagement">Data</h1>
+        <div class="card stack">
+          <div class="row wrap">
+            <button id="btnExport" class="primary" data-i18n="exportJson">Export</button>
+            <button id="btnImport" data-i18n="importJson">Import merge</button>
+            <button id="btnImportChrome" data-i18n="importChromeMenu">Import Chrome bookmarks…</button>
+            <button id="btnIntegrity" data-i18n="checkIntegrity">Integrity</button>
+          </div>
+          <div>
+            <div class="label" data-i18n="dataStats">Statistics</div>
+            <div id="statsText" class="value"></div>
+          </div>
+          <pre id="integrityOut" class="mono hidden"></pre>
+        </div>
+      </section>
+
+      <section id="tab-about" class="tab hidden">
+        <h1 data-i18n="about">About</h1>
+        <div class="card stack">
+          <p data-i18n="aboutBody"></p>
+          <p class="muted" data-i18n="versionLabel"></p>
+          <p>
+            <span class="label" data-i18n="repoLabel">Repository</span><br />
+            <a href="https://github.com/akizono/mark-nest" target="_blank" rel="noopener noreferrer">https://github.com/akizono/mark-nest</a>
+          </p>
+        </div>
+      </section>
+    </main>
+  </div>
+  <script type="module" src="options.js"></script>
+</body>
+</html>

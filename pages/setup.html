@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>MarkNest Setup</title>
+  <link rel="stylesheet" href="../assets/shared.css" />
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <main class="page">
+    <header class="page-header">
+      <img src="../assets/icons/icon48.png" width="28" height="28" alt="" />
+      <div>
+        <h1>MarkNest</h1>
+        <p class="muted" data-i18n="subtitle">Your Personal Bookmark Space</p>
+      </div>
+    </header>
+
+    <section id="stepStorage" class="card stack">
+      <h2 data-i18n="welcomeTitle">Welcome to MarkNest</h2>
+      <p class="muted" data-i18n="welcomeBody"></p>
+      <p class="muted" data-i18n="setupCapabilities"></p>
+      <div id="capInfo" class="muted"></div>
+      <div class="stack" id="storageActions"></div>
+      <p id="storageError" class="banner error hidden"></p>
+    </section>
+
+    <section id="stepPassword" class="card stack hidden">
+      <h2 data-i18n="setPasswordOptional">Set a password</h2>
+      <div class="field">
+        <label data-i18n="newPassword">New password</label>
+        <input id="pwd1" type="password" autocomplete="new-password" />
+      </div>
+      <div class="field">
+        <label data-i18n="confirmPassword">Confirm password</label>
+        <input id="pwd2" type="password" autocomplete="new-password" />
+      </div>
+      <p id="pwdError" class="banner error hidden"></p>
+      <div class="row">
+        <button id="btnSkipPwd" data-i18n="skipPassword">Skip</button>
+        <button id="btnSavePwd" class="primary" data-i18n="continue">Continue</button>
+      </div>
+    </section>
+
+    <section id="stepDone" class="card stack hidden">
+      <h2 data-i18n="done">Done</h2>
+      <p id="doneSummary" class="muted"></p>
+      <button id="btnOpenOptions" data-i18n="settings">Settings</button>
+    </section>
+  </main>
+  <script type="module" src="setup.js"></script>
+</body>
+</html>

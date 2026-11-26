@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Import from Chrome</title>
+  <link rel="stylesheet" href="../assets/shared.css" />
+  <link rel="stylesheet" href="pages.css" />
+  <style>
+    body {
+      overflow: hidden;
+    }
+    .page.import-chrome-page {
+      width: min(960px, 100%);
+      max-width: none;
+      height: 100vh;
+      box-sizing: border-box;
+      padding: 16px 18px 14px;
+      display: flex;
+      flex-direction: column;
+      margin: 0 auto;
+    }
+    .page.import-chrome-page .page-header {
+      margin-bottom: 10px;
+      flex-shrink: 0;
+    }
+    .page.import-chrome-page .page-header h1 {
+      font-size: 18px;
+    }
+    .import-card {
+      flex: 1;
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      margin-bottom: 0;
+    }
+    .chrome-hint {
+      margin: 0;
+      flex-shrink: 0;
+    }
+    .import-split {
+      flex: 1;
+      min-height: 0;
+      display: grid;
+      grid-template-columns: minmax(240px, 0.9fr) minmax(320px, 1.3fr);
+      gap: 12px;
+    }
+    .import-pane {
+      min-height: 0;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 10px;
+      background: #fafbfc;
+    }
+    .import-pane .pane-title {
+      font-size: 13px;
+      font-weight: 650;
+      color: var(--text);
+      flex-shrink: 0;
+    }
+    .pane-toolbar {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 8px;
+    }
+    #targetPicker,
+    .chrome-tree {
+      flex: 1;
+      min-height: 0;
+      overflow: auto;
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 4px;
+      background: #fff;
+    }
+    .chrome-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      padding: 4px 6px;
+      border-radius: 4px;
+      font-size: 13px;
+    }
+    .chrome-row:hover {
+      background: #f3f5f8;
+    }
+    .chrome-row .pad {
+      flex: 0 0 auto;
+    }
+    .chrome-row .meta {
+      flex: 1;
+      min-width: 0;
+    }
+    .chrome-row .url {
+      color: var(--muted);
+      font-size: 11px;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .import-footer {
+      flex-shrink: 0;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: flex-end;
+      gap: 10px;
+    }
+    .import-footer #msg {
+      flex: 1;
+      min-width: 160px;
+      margin: 0;
+    }
+    @media (max-width: 720px) {
+      .import-split {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="page import-chrome-page">
+    <header class="page-header">
+      <img src="../assets/icons/icon32.png" width="24" height="24" alt="" />
+      <h1 data-i18n="importChromeTitle">Import from Chrome bookmarks</h1>
+    </header>
+
+    <div class="card import-card">
+      <p class="muted chrome-hint" data-i18n="importChromeHint"></p>
+      <p class="muted chrome-hint" data-i18n="importChromeBarLimit"></p>
+
+      <div class="import-split">
+        <section class="import-pane" aria-label="MarkNest target">
+          <div class="pane-title" data-i18n="importChromeTarget">Import into MarkNest folder</div>
+          <div id="targetPicker"></div>
+        </section>
+
+        <section class="import-pane" aria-label="Chrome source">
+          <div class="pane-title" data-i18n="importChromeSource">Chrome bookmarks to import</div>
+          <div class="pane-toolbar">
+            <button id="btnSelectAll" data-i18n="selectAll">Select all</button>
+            <button id="btnClear" data-i18n="clearSelection">Clear</button>
+            <span id="selCount" class="muted"></span>
+          </div>
+          <div id="tree" class="chrome-tree"></div>
+        </section>
+      </div>
+
+      <div class="import-footer">
+        <p id="msg" class="banner hidden"></p>
+        <button id="btnClose" data-i18n="cancel">Cancel</button>
+        <button id="btnImport" class="primary" data-i18n="importChromeAction">Add to MarkNest</button>
+      </div>
+    </div>
+  </div>
+  <script type="module" src="import-chrome.js"></script>
+</body>
+</html>
