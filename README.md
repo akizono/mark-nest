@@ -14,6 +14,8 @@
     <a href="#install">Install</a>
     &nbsp;·&nbsp;
     <a href="#build--test">Build / test</a>
+    &nbsp;·&nbsp;
+    <a href="README.zh-CN.md">简体中文</a>
   </p>
 </div>
 
@@ -145,7 +147,7 @@ $out = Join-Path $env:TEMP "mark-nest-$version"
 Remove-Item $out -Recurse -Force -ErrorAction SilentlyContinue
 New-Item -ItemType Directory -Path $out | Out-Null
 Copy-Item -Recurse `
-  manifest.json,background,popup,options,pages,scripts,assets,_locales,LICENSE,README.md `
+  manifest.json,background,popup,options,pages,scripts,assets,_locales,LICENSE,README.md,README.zh-CN.md `
   $out
 Compress-Archive -Path (Join-Path $out '*') -DestinationPath ".\mark-nest-$version.zip" -Force
 ```
